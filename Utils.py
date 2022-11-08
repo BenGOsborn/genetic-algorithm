@@ -45,6 +45,9 @@ def breed(parent1, parent2, mutation_chance):
     return "".join(out)
 
 
+# **** Now we need some way of selecting our population from a batch and breeding them together
+
+
 if __name__ == "__main__":
     p1 = "hello"
     p2 = "aeslp"
