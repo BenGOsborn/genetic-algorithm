@@ -45,7 +45,20 @@ def breed(parent1, parent2, mutation_chance):
     return "".join(out)
 
 
-# **** Now we need some way of selecting our population from a batch and breeding them together
+# Calculate probabilities from scores relative to their performance
+def softmax(scores):
+    out = [math.exp(score) for score in scores]
+    summed = sum(out)
+
+    return [elem / summed for elem in out]
+
+
+# Create a generation from an output of the given generation
+def create_next_generation(candidates, population_size):
+    # **** Take the candidates
+    # **** Select 2 at a time probabilistically and breed them until the desired population size has been met
+
+    pass
 
 
 if __name__ == "__main__":
