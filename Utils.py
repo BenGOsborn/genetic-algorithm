@@ -89,13 +89,15 @@ def create_next_generation(candidates, target, population_size, mutation_chance)
 
 if __name__ == "__main__":
     target = "hello"
-    mutation_chance = 0.1
+    mutation_chance = 0.05
     population_size = 50
-    iterations = 80
+
+    max_iterations = 1000
 
     population = initialize_candidates(target, population_size)
 
-    for i in range(iterations):
+    i = 0
+    while i < max_iterations:
         population = create_next_generation(
             population, target, population_size, mutation_chance
         )
@@ -104,5 +106,7 @@ if __name__ == "__main__":
                           for candidate in population) / len(population)
 
         print(f"Population {i + 1} | Fitness {avg_fitness}")
+
+        i += 1
 
     print(population)
