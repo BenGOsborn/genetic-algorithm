@@ -13,7 +13,7 @@ def fitness(guess, target):
         if guess[i] != target[i]:
             diff += 1
 
-    return 10 if diff == 0 else math.log(1 / diff)
+    return 2 if diff == 0 else -(math.log(1) - math.log(diff))
 
 
 # Breed two parents to create a child with a chance of mutating
