@@ -88,7 +88,7 @@ def create_next_generation(candidates, target, population_size, mutation_chance)
 
 
 if __name__ == "__main__":
-    target = "asymmetricalshockhorror"
+    target = "sandwich"
     mutation_chance = 0.01
     population_size = 50
 
@@ -117,4 +117,4 @@ if __name__ == "__main__":
 
         i += 1
 
-    print(population)
+    print(best_score, best_population)
