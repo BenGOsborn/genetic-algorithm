@@ -2,19 +2,18 @@ import math
 import random
 import string
 
+
 # Calculate fitness for a given guess vs actual
-
-
-def fitness(guess, actual):
-    assert len(guess) == len(actual)
+def fitness(guess, target):
+    assert len(guess) == len(target)
 
     diff = 0
 
-    for i in range(len(actual)):
-        if guess[i] != actual[i]:
+    for i in range(len(target)):
+        if guess[i] != target[i]:
             diff += 1
 
-    return math.inf if diff == 0 else math.log(1 / diff)
+    return 10 if diff == 0 else math.log(1 / diff)
 
 
 # Breed two parents to create a child with a chance of mutating
@@ -22,7 +21,7 @@ def breed(parent1, parent2, mutation_chance):
     assert len(parent1) == len(parent2)
     assert mutation_chance >= 0 and mutation_chance <= 1
 
-    out = ["" for _ in parent1]
+    out = [""] * len(parent1)
 
     # Create a random string from the crossover
     choices = [0, 1, 2]
@@ -53,19 +52,57 @@ def softmax(scores):
     return [elem / summed for elem in out]
 
 
-# Create a generation from an output of the given generation
-def create_next_generation(candidates, population_size):
-    # **** Take the candidates
-    # **** Select 2 at a time probabilistically and breed them until the desired population size has been met
+# Initialize the first generation of candidates
+def initialize_candidates(target, population_size):
+    candidates = [
+        "".join(random.choice(string.printable) for _ in range(len(target))) for _ in range(population_size)
+    ]
 
-    pass
+    return candidates
+
+
+# Create a generation from an output of the given generation
+def create_next_generation(candidates, target, population_size, mutation_chance):
+    assert len(candidates) >= 2
+
+    # Generate probabilities for each candidate based on their fitness
+    scores = [fitness(candidate, target) for candidate in candidates]
+    probs = softmax(scores)
+    probs_index = list(range(len(probs)))
+
+    # Breed current population to create next generation
+    out = [""] * population_size
+
+    for i in range(population_size):
+        parent1 = None
+        parent2 = None
+
+        while parent1 == parent2:
+            parent1 = random.choices(probs_index, probs)[0]
+            parent2 = random.choices(probs_index, probs)[0]
+
+        out[i] = breed(candidates[parent1],
+                       candidates[parent2], mutation_chance)
+
+    return out
 
 
 if __name__ == "__main__":
-    p1 = "hello"
-    p2 = "aeslp"
-    mutation = 0.01
+    target = "hello"
+    mutation_chance = 0.1
+    population_size = 50
+    iterations = 80
 
-    print(fitness(p1, p2))
+    population = initialize_candidates(target, population_size)
 
-    print(breed(p1, p2, mutation))
+    for i in range(iterations):
+        population = create_next_generation(
+            population, target, population_size, mutation_chance
+        )
+
+        avg_fitness = sum(fitness(candidate, target)
+                          for candidate in population) / len(population)
+
+        print(f"Population {i + 1} | Fitness {avg_fitness}")
+
+    print(population)
