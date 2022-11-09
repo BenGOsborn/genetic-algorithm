@@ -88,13 +88,15 @@ def create_next_generation(candidates, target, population_size, mutation_chance)
 
 
 if __name__ == "__main__":
-    target = "hello"
+    target = "asymmetricalshockhorror"
     mutation_chance = 0.01
     population_size = 50
 
-    max_iterations = 5000
+    max_iterations = 10000
 
     population = initialize_candidates(target, population_size)
+    best_score = -math.inf
+    best_population = population
 
     i = 0
     while i < max_iterations:
@@ -106,6 +108,12 @@ if __name__ == "__main__":
                           for candidate in population) / len(population)
 
         print(f"Population {i + 1} | Fitness {avg_fitness}")
+
+        if avg_fitness > best_score:
+            best_score = avg_fitness
+            best_population = population
+
+            print(f"New best population")
 
         i += 1
 
