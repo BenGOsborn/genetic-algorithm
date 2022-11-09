@@ -88,11 +88,11 @@ def create_next_generation(candidates, target, population_size, mutation_chance)
 
 
 if __name__ == "__main__":
-    target = "hi I love sandwiches"
+    target = "That cabbage is looking red"
     mutation_chance = 0.01
-    population_size = 1000
+    population_size = 500
 
-    max_iterations = 1000
+    max_iterations = 500
 
     population = initialize_candidates(target, population_size)
     best_score = -math.inf
