@@ -88,9 +88,9 @@ def create_next_generation(candidates, target, population_size, mutation_chance)
 
 
 if __name__ == "__main__":
-    target = "sandwich"
+    target = "hi I love sandwiches"
     mutation_chance = 0.01
-    population_size = 50
+    population_size = 100
 
     max_iterations = 10000
 
